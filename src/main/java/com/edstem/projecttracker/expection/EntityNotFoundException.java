@@ -1,6 +1,6 @@
 package com.edstem.projecttracker.expection;
 
-public class EntityNotFoundException extends RuntimeException{
+public class EntityNotFoundException extends RuntimeException {
     private final String entity;
     private final Long id;
 
@@ -10,4 +10,9 @@ public class EntityNotFoundException extends RuntimeException{
         this.id = id;
     }
 
+    public EntityNotFoundException(String entity) {
+        super("No entity " + entity + " found ");
+        this.entity = entity;
+        this.id = 0L;
+    }
 }

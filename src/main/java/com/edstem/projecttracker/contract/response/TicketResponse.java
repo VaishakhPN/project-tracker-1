@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-import java.util.Set;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,7 +14,8 @@ import java.util.Set;
 public class TicketResponse {
     private Long id;
     private String title;
+    private String requirements;
     private String description;
-    private String acceptanceCriteria;
+    private String comments;
     private Long categoryId;
 }

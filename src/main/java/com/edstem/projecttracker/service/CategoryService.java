@@ -2,53 +2,58 @@ package com.edstem.projecttracker.service;
 
 import com.edstem.projecttracker.contract.request.CategoryRequest;
 import com.edstem.projecttracker.contract.response.CategoryResponse;
-import com.edstem.projecttracker.contract.response.TicketResponse;
 import com.edstem.projecttracker.expection.EntityNotFoundException;
 import com.edstem.projecttracker.model.Category;
-import com.edstem.projecttracker.model.Ticket;
 import com.edstem.projecttracker.repository.CategoryRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
+
     public CategoryResponse createCategory(CategoryRequest categoryRequestDto) {
-        Category category = Category.builder()
-                .name(categoryRequestDto.getName())
-                .build();
+        Category category = Category.builder().name(categoryRequestDto.getName()).build();
         category = categoryRepository.save(category);
         return convertToDto(category);
     }
+
     public CategoryResponse convertToDto(Category category) {
         return modelMapper.map(category, CategoryResponse.class);
     }
+
     public List<CategoryResponse> viewCategories() {
         List<Category> categories = categoryRepository.findAll();
         return categories.stream()
                 .map(category -> modelMapper.map(category, CategoryResponse.class))
                 .collect(Collectors.toList());
     }
+
     public CategoryResponse updateCategory(Long id, CategoryRequest categoryRequestDto) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
-        category = Category.builder()
-                .categoryId(category.getCategoryId())
-                .name(categoryRequestDto.getName())
-                .tickets(category.getTickets())
-                .build();
+        Category category =
+                categoryRepository
+                        .findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Category not found"));
+        category =
+                Category.builder()
+                        .categoryId(category.getCategoryId())
+                        .name(categoryRequestDto.getName())
+                        .tickets(category.getTickets())
+                        .build();
         category = categoryRepository.save(category);
         return convertToDto(category);
     }
 
     public void deleteCategory(Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
+        Category category =
+                categoryRepository
+                        .findById(id)
+                        .orElseThrow(() -> new EntityNotFoundException("Category not found", +id));
         categoryRepository.delete(category);
     }
 }
