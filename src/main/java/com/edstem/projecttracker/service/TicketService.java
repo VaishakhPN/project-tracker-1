@@ -82,6 +82,14 @@ public class TicketService {
         return convertToDto(ticket);
     }
 
+    public List<TicketResponse> getTicketsByCategoryName(String name) {
+        Category category = categoryRepository.findByName(name);
+        List<Ticket> tickets = category.getTickets();
+        return tickets.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     public void deleteTicket(Long id) {
         Ticket ticket =
                 ticketRepository

@@ -44,6 +44,11 @@ public class TicketController {
         return ticketService.updateTicket(id, ticketRequestDto);
     }
 
+    @GetMapping("/categories/name/{name}")
+    public List<TicketResponse> getTicketsByCategoryName(@PathVariable String name) {
+        return ticketService.getTicketsByCategoryName(name);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteTicket(@PathVariable Long id) {
         ticketService.deleteTicket(id);
