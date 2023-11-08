@@ -158,6 +158,18 @@
 				"url": "http://localhost:8080/tickets/4"
 			},
 			"response": []
+		},
+		{
+			"name": "View By Category Name",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/tickets/categories/name/Sprint 20"
+			},
+			"response": []
 		}
 	]
 }
